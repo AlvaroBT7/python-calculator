@@ -6,27 +6,16 @@ class Calc:
     def __init__(self):
         self.__number_a = 0
         self.__number_b = 0
+        self.parent = root
         self.__buttons = {
             "display": CalcDisplay(text="display calculator"),
-            "numeric_panel": [
-                NumericCalcButton(text="0", command=lambda: self.print_in_display("0")),
-                NumericCalcButton(text="1", command=lambda: self.print_in_display("1")),
-                NumericCalcButton(text="2", command=lambda: self.print_in_display("2")),
-                NumericCalcButton(text="3", command=lambda: self.print_in_display("3")),
-                NumericCalcButton(text="4", command=lambda: self.print_in_display("4")),
-                NumericCalcButton(text="5", command=lambda: self.print_in_display("5")),
-                NumericCalcButton(text="6", command=lambda: self.print_in_display("6")),
-                NumericCalcButton(text="7", command=lambda: self.print_in_display("7")),
-                NumericCalcButton(text="8", command=lambda: self.print_in_display("8")),
-            ],
+            "numeric_panel": [NumericCalcButton(text=str(z), command=lambda: self.print_in_display(str(z))) for z in range(9)],
             "working_buttons": [
                 WorkingCalcButton(text="Undo", command=lambda: self.clear_display()),
                 WorkingCalcButton(text="Remove", command=lambda: self.remove_display_char())
             ]
         }
-        self.__start = [
-            self.grid_calc_buttons()
-        ]
+        self.grid_calc_buttons()
 
     
     def grid_calc_buttons(self):
