@@ -7,38 +7,53 @@ class Calc:
         self.number_a = 0
         self.number_b = 0
         self.buttons = {
-            # "display": 
+            "display": CalcDisplay(text="display calculator"),
             "numeric_panel": [
-                NumericCalcButton(text="0", command=lambda: self.add()),
-                NumericCalcButton(text="1", command=lambda: self.add()),
-                NumericCalcButton(text="2", command=lambda: self.add()),
-                NumericCalcButton(text="3", command=lambda: self.add()),
-                NumericCalcButton(text="4", command=lambda: self.add()),
-                NumericCalcButton(text="5", command=lambda: self.add()),
-                NumericCalcButton(text="6", command=lambda: self.add()),
-                NumericCalcButton(text="7", command=lambda: self.add()),
-                NumericCalcButton(text="8", command=lambda: self.add()),
+                NumericCalcButton(text="0", command=lambda: self.print_in_display("0")),
+                NumericCalcButton(text="1", command=lambda: self.print_in_display("1")),
+                NumericCalcButton(text="2", command=lambda: self.print_in_display("2")),
+                NumericCalcButton(text="3", command=lambda: self.print_in_display("3")),
+                NumericCalcButton(text="4", command=lambda: self.print_in_display("4")),
+                NumericCalcButton(text="5", command=lambda: self.print_in_display("5")),
+                NumericCalcButton(text="6", command=lambda: self.print_in_display("6")),
+                NumericCalcButton(text="7", command=lambda: self.print_in_display("7")),
+                NumericCalcButton(text="8", command=lambda: self.print_in_display("8")),
             ]
         }
         self.__start = [
-            self.grid_numeric_panel()
+            self.grid_calc_buttons()
         ]
 
     
-    def grid_numeric_panel(self):
-        # for numeric_button in self.buttons["numeric_panel"]:
-        #     numeric_button.pack()
-        contador = 0
+    def grid_calc_buttons(self):
+
+        # grids calculator display
+        self.buttons["display"].grid(row=0, column=1)
+
+        # grids the numeric button panel
+        conter = 0
         for row in range(3):
             for column in range(3):
-                self.buttons["numeric_panel"][contador].grid(row=row, column=column)
-                contador += 1
+                self.buttons["numeric_panel"][conter].grid(row=row+1, column=column)
+                conter += 1
         return self.buttons["numeric_panel"]
 
 
-    def add(self):
-        self.number_a += 1
-        return print(self.number_a)
+    def print_in_display(self, pressed_button):
+        new_display_content = self.buttons["display"].cget("text")
+        new_display_content += pressed_button
+        self.buttons["display"].config(text=new_display_content)
+
+
+class CalcDisplay(ttk.Label):
+    def __init__(self, **kwargs):
+        super().__init__(
+            root,
+            text=kwargs["text"],
+            background="#222222",
+            foreground="#ffffff",
+            font=("Cascadia Code", 20, "bold")
+        )
 
 
 class CalcButton(ttk.Button):
@@ -59,7 +74,6 @@ class NumericCalcButton(CalcButton):
 
 root = Tk()
 # widget settings
-root.geometry("400x400")
 root.resizable(False, False)
 
 calc1 = Calc()
